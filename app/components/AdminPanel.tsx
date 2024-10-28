@@ -14,8 +14,12 @@ const AdminPanel = ({
     { id: "6", type: "option", content: "Option" },
   ];
 
-  const handleDragStart = (component: QuizComponent) => {
-    onAddComponent(component);
+  const handleDragStart = (
+    event: React.DragEvent,
+    component: QuizComponent
+  ) => {
+    // Set the component data as JSON in dataTransfer
+    event.dataTransfer.setData("component", JSON.stringify(component));
   };
 
   return (
@@ -25,8 +29,8 @@ const AdminPanel = ({
         <div
           key={component.id}
           draggable
-          onDragStart={() =>
-            handleDragStart({ ...component, position: { x: 0, y: 0 } })
+          onDragStart={(e) =>
+            handleDragStart(e, { ...component, position: { x: 0, y: 0 } })
           }
           className="p-3 bg-white flex flex-col border rounded-lg shadow-md cursor-pointer hover:bg-gray-200"
         >

@@ -9,13 +9,26 @@ const QuizGrid = ({
 }) => {
   const handleDrop = (event: React.DragEvent) => {
     event.preventDefault();
+
+    // Get the data from dataTransfer
     const data = event.dataTransfer.getData("component");
-    const component = JSON.parse(data);
-    component.position = { x: event.clientX, y: event.clientY };
-    onDropComponent(component);
+
+    // Check if data is available before parsing
+    if (!data) {
+      console.error("No data found in dataTransfer");
+      return;
+    }
+
+    try {
+      const component = JSON.parse(data);
+      component.position = { x: event.clientX, y: event.clientY };
+      onDropComponent(component);
+    } catch (error) {
+      console.error("Error parsing JSON data:", error);
+    }
   };
 
-  console.log("comp", components);
+  console.log("componnt", components);
 
   return (
     <div
@@ -23,23 +36,23 @@ const QuizGrid = ({
       onDrop={handleDrop}
       onDragOver={(e) => e.preventDefault()}
     >
-      {components.map((component, index) => (
+      {components.map((component) => (
         <div
-          key={index}
-          // style={{
-          //   left: component.position.x,
-          //   top: component.position.y,
-          // }}
+          key={component.id}
+          style={{
+            left: component.position?.x || 0,
+            top: component.position?.y || 0,
+          }}
         >
-          {component.type === "option" ? (
-            <div className="p-4 hover:cursor-pointer w-[200px] m-2 bg-blue-200 border border-blue-400 rounded-lg shadow-md text-center">
-              {component?.text}
-            </div>
-          ) : (
-            <div className="p-4 w-[200px] m-2 text-center">
-              {component?.text}
-            </div>
-          )}
+          <div
+            className={`p-4 w-[200px] m-2 ${
+              component.type !== "question"
+                ? "bg-blue-200 border border-blue-400 rounded-lg"
+                : ""
+            } shadow-md text-center`}
+          >
+            {component?.content ? component.content : component.text}
+          </div>
         </div>
       ))}
     </div>
