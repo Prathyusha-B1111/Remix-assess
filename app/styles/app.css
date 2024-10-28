@@ -1,0 +1,8 @@
+/* src/styles/global.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.drop-zone {
+  @apply flex-grow p-4 border border-dashed border-gray-400;
+}

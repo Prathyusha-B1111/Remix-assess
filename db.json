@@ -1,0 +1,7 @@
+{
+  "quizConfig": [
+    { "id": 1, "type": "question", "text": "What is the capital of France?" },
+    { "id": 2, "type": "option", "text": "Paris" },
+    { "id": 3, "type": "option", "text": "Rome" }
+  ]
+}
